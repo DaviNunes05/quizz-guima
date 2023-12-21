@@ -3,11 +3,7 @@ const mongoose = require("mongoose");
 const connectToDb = () => {
 	mongoose
 		.connect(
-			"mongodb+srv://root:admin@quizz-guima.cpgmbld.mongodb.net/?retryWrites=true&w=majority",
-			// {
-			// 	useNewUrlParser: true,
-			// 	useUnifiedTopology: true,
-			// }
+			process.env.DB_URI
 		)
 		.then(() => console.log("MongoDB conectado!"))
 		.catch((err) => console.log(err));
