@@ -10,6 +10,10 @@ connectToDb();
 const app = express();
 const port = process.env.PORT;
 
+app.use("/", (req, res) =>{
+    res.send("Server UP!")
+})
+
 app.use(cors())
 app.use(express.json())
 app.use(routes);
