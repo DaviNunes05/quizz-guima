@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Projeto interno da Guima Conseco \"Quizz\"",
   "main": "index.js",
+  "engine": {
+    "node": "18.x"
+  },
   "scripts": {
     "start": "node index",
     "dev": "nodemon index"
