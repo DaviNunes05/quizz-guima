@@ -4,15 +4,17 @@
   "description": "Projeto interno da Guima Conseco \"Quizz\"",
   "main": "index.js",
   "scripts": {
-    "start": "node index"
+    "start": "node index",
+    "dev": "nodemon index"
   },
   "author": "Davi Nunes e Douglas Nascimento",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "ejs": "^3.1.9",
     "express": "^4.18.2",
     "mongoose": "^8.0.3",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "uuid": "^9.0.1"
   }
 }
