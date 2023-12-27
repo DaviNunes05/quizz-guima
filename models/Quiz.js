@@ -56,22 +56,7 @@ const quizSchema = new Schema(
 	}
 );
 
-quizSchema.path("resultados").validate({
-	validator: function (value) {
-		const reSet = new Set();
-		for (const result of value) {
-			if (reSet.has(result.re)) {
-				return false;
-			}
-			reSet.add(result.re);
-		}
-		return true;
-	},
-	message:
-		"O campo 're' não pode ser repetido dentro do array de resultados.",
-});
-
-const quizModel = mongoose.model("quiz", quizSchema);
+const quizModel = mongoose.model("quizz", quizSchema);
 
 module.exports = {
 	quizModel,

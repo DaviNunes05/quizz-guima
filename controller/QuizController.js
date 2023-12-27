@@ -13,6 +13,8 @@ const gravarResultado = async (req, res) => {
 	const quizData = req.params.data;
 	const novoResultado = req.body;
 
+	
+
 	const resultado = await QuizService.gravarResultado(quizData, novoResultado);
 
 	res.status(200).json(
