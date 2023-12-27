@@ -38,22 +38,14 @@ const quizResultadoSchema = new Schema(
 	}
 );
 
-quizResultadoSchema.pre("validate", async function (next) {
-	const resultados = this.parent().resultados;
-	const jogadores = new Set();
-
-	for (const resultado of resultados) {
-		const re = resultado.re;
-
-		if (jogadores.has(re)) {
-			return next(new Error("Um jogador não pode refazer o mesmo quiz."));
-		}
-
-		jogadores.add(re);
-	}
-
-	next();
-});
+quizResultadoSchema.path("re").validate({
+	validator: async function (value) {
+	  const existingResults = this.parent().resultados;
+	  const index = existingResults.findIndex((result) => result.re === value);
+	  return index === -1;
+	},
+	message: "O campo 're' não pode ser repetido.",
+  });
 
 const quizSchema = new Schema(
 	{
