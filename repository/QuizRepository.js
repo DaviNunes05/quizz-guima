@@ -6,9 +6,12 @@ const buscarResultadosPorData = async (quizData) => {
 };
 
 const gravarResultado = async (quizData, novoResultado) => {
-	const filtro = { data: quizData , "resultados.re": { $ne: novoResultado.re } };
-	const update = { $addToSet: { resultados: novoResultado } };
-	const options = { upsert: true, new: true };
+	const filtro = { data: quizData, "resultados.re": novoResultado.re };
+	const update = {
+		$setOnInsert: { data: quizData },
+		$addToSet: { "resultados": novoResultado }
+	};
+	const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 	const quizAtualizado = await quizModel.findOneAndUpdate(
 		filtro,
 		update,
