@@ -10,7 +10,6 @@ const gravarResultado = async (quizData, novoResultado) => {
 	const resultadoExistente = await quizModel.findOne(filtro);
 
 	if (resultadoExistente) {
-		// Se já existe um resultado com o mesmo 're', não faz nada e apenas retorna o documento atual
 		return resultadoExistente;
 	}
 
