@@ -38,6 +38,26 @@ const quizResultadoSchema = new Schema(
 	}
 );
 
+const isUniqueRe = async function (value) {
+	const resultados = this.parent().resultados;
+	const jogadores = new Set();
+
+	for (const resultado of resultados) {
+		const re = resultado.re;
+
+		if (jogadores.has(re)) {
+			return false;
+		}
+
+		jogadores.add(re);
+	}
+
+	return true;
+};
+
+quizResultadoSchema.path("re").validate(isUniqueRe, "Um jogador não pode refazer o mesmo quiz.");
+
+
 const quizSchema = new Schema(
 	{
 		_id: {
@@ -55,20 +75,6 @@ const quizSchema = new Schema(
 		versionKey: false,
 	}
 );
-
-quizSchema.path("resultados").validate(async function (value) {
-	const jogadores = new Set();
-	for (const resultado of value) {
-		const re = resultado.re;
-
-		if (jogadores.has(re)) {
-			throw new Error("Um jogador não pode refazer o mesmo quiz.");
-		}
-
-		jogadores.add(re);
-	}
-}, "Um jogador não pode refazer o mesmo quiz.");
-
 
 const quizModel = mongoose.model("quizz", quizSchema);
 
