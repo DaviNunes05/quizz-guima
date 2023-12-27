@@ -38,15 +38,6 @@ const quizResultadoSchema = new Schema(
 	}
 );
 
-quizResultadoSchema.path("re").validate({
-	validator: async function (value) {
-	  const existingResults = this.parent().resultados;
-	  const index = existingResults.findIndex((result) => result.re === value);
-	  return index === -1;
-	},
-	message: "O campo 're' não pode ser repetido.",
-  });
-
 const quizSchema = new Schema(
 	{
 		_id: {
@@ -65,7 +56,22 @@ const quizSchema = new Schema(
 	}
 );
 
-const quizModel = mongoose.model("quizz", quizSchema);
+quizSchema.path("resultados").validate({
+	validator: function (value) {
+		const reSet = new Set();
+		for (const result of value) {
+			if (reSet.has(result.re)) {
+				return false;
+			}
+			reSet.add(result.re);
+		}
+		return true;
+	},
+	message:
+		"O campo 're' não pode ser repetido dentro do array de resultados.",
+});
+
+const quizModel = mongoose.model("quiz", quizSchema);
 
 module.exports = {
 	quizModel,
