@@ -56,7 +56,10 @@ const quizSchema = new Schema(
 	}
 );
 
-quizSchema.path("resultados").validate(async function (resultados) {
+
+const quizModel = mongoose.model("quizz", quizSchema);
+
+quizModel.path("resultados").validate(async function (resultados) {
 	const jogadores = new Set();
 	for (const resultado of resultados) {
 		const re = resultado.re;
@@ -70,8 +73,6 @@ quizSchema.path("resultados").validate(async function (resultados) {
 
 	return true;
 }, "Um jogador não pode refazer o mesmo quiz.");
-
-const quizModel = mongoose.model("quizz", quizSchema);
 
 module.exports = {
 	quizModel,
