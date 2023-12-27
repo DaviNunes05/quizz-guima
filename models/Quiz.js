@@ -38,7 +38,7 @@ const quizResultadoSchema = new Schema(
 	}
 );
 
-const isUniqueRe = async function (value) {
+quizResultadoSchema.pre("validate", async function (next) {
 	const resultados = this.parent().resultados;
 	const jogadores = new Set();
 
@@ -46,17 +46,14 @@ const isUniqueRe = async function (value) {
 		const re = resultado.re;
 
 		if (jogadores.has(re)) {
-			return false;
+			return next(new Error("Um jogador não pode refazer o mesmo quiz."));
 		}
 
 		jogadores.add(re);
 	}
 
-	return true;
-};
-
-quizResultadoSchema.path("re").validate(isUniqueRe, "Um jogador não pode refazer o mesmo quiz.");
-
+	next();
+});
 
 const quizSchema = new Schema(
 	{
